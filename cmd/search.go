@@ -47,7 +47,6 @@ func init() {
 
 func search(args []string) {
 	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow", args[0], args[1])
-	fmt.Println(url)
 	apiReturn := apiCall(url)
 	broadcastAnswer(apiReturn)
 }
@@ -81,7 +80,10 @@ func decodeJSON(resp []byte) Answer {
 }
 
 func broadcastAnswer(a Answer) {
-	for _, item := range a {
-		fmt.Printf("%+v\n", item)
+	for _, item := range a.Items {
+		fmt.Printf("Title: %+v\n", item.Title)
+		fmt.Printf("Amount of Answers: %+v\n", item.AnswerCount)
+		fmt.Printf("Upvotes: %+v\n\n", item.Score)
+		fmt.Printf("Link: %+v\n\n", item.Link)
 	}
 }
