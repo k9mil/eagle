@@ -1,6 +1,9 @@
 package cmd
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -8,27 +11,50 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type Answer struct {
+	Items []struct {
+		AnswerCount int    `json:"answer_count"`
+		Score       int    `json:"score"`
+		Link        string `json:"link"`
+		Title       string `json:"title"`
+	}
+}
+
+var (
+	Sort  string
+	Title string
+)
+
 var searchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "Required command to search for your question.",
+	Args: func(searchCmd *cobra.Command, args []string) error {
+		if len(args) != 2 {
+			return errors.New("Requires a sort & title argument. See --help.")
+		}
+		return nil
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		search()
+		search(args)
 	},
 }
 
 func init() {
+	searchCmd.Flags().StringVar(&Sort, "sort", "s", "The sort method to be used.")
+	searchCmd.Flags().StringVar(&Title, "title", "t", "The title of the query.")
 	rootCmd.AddCommand(searchCmd)
 }
 
-type Answer struct {
-	AnswerCount int    `json:"answer_count"`
-	Score       int    `json:"score"`
-	Link        string `json:"link"`
-	Title       string `json:"title"`
+func search(args []string) {
+	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow", args[0], args[1])
+	fmt.Println(url)
+	apiReturn := apiCall(url)
+	broadcastAnswer(apiReturn)
 }
 
-func search() {
-	resp, err := http.Get("https://api.stackexchange.com/2.3/posts?order=asc&sort=creation&site=stackoverflow")
+func apiCall(url string) Answer {
+	resp, err := http.Get(url)
+
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -39,6 +65,23 @@ func search() {
 		log.Fatalln(err)
 	}
 
-	sb := string(body)
-	log.Printf(sb)
+	return decodeJSON(body)
+}
+
+func decodeJSON(resp []byte) Answer {
+	var rawData Answer
+
+	err := json.Unmarshal(resp, &rawData)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return rawData
+}
+
+func broadcastAnswer(a Answer) {
+	for _, item := range a {
+		fmt.Printf("%+v\n", item)
+	}
 }
