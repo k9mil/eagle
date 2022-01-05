@@ -6,6 +6,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	version string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "eagle",
 	Short: "A simple, fast and elegant Stack Overflow search(er).",
@@ -20,5 +24,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	rootCmd.Flags().StringVar(&version, "version", "ver", "Check the current version")
 }

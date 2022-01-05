@@ -30,13 +30,31 @@ var searchCmd = &cobra.Command{
 	Short: "Required command to search for your question.",
 	Args: func(searchCmd *cobra.Command, args []string) error {
 		if len(args) != 2 {
-			return errors.New("Requires a sort & title argument. See --help.")
+			return errors.New("requires a sort & title argument")
 		}
+
+		ListOfOptions := []string{"votes", "activity", "creation", "relevance"}
+		err := stringInSlice(args[0], ListOfOptions)
+
+		if err != nil {
+			log.Fatalln(err)
+		}
+
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		search(args)
+		search(args[0], args[1])
 	},
+}
+
+func stringInSlice(sort string, ListOfOptions []string) error {
+	for _, val := range ListOfOptions {
+		if val == sort {
+			return nil
+		}
+	}
+
+	return errors.New("sort method not found")
 }
 
 func init() {
@@ -45,8 +63,8 @@ func init() {
 	rootCmd.AddCommand(searchCmd)
 }
 
-func search(args []string) {
-	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow", args[0], args[1])
+func search(sort, title string) {
+	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow", sort, title)
 	apiReturn := apiCall(url)
 	broadcastAnswer(apiReturn)
 }
@@ -84,6 +102,6 @@ func broadcastAnswer(a Answer) {
 		fmt.Printf("Title: %+v\n", item.Title)
 		fmt.Printf("Amount of Answers: %+v\n", item.AnswerCount)
 		fmt.Printf("Upvotes: %+v\n\n", item.Score)
-		fmt.Printf("Link: %+v\n\n", item.Link)
+		fmt.Printf("Link: %+v\n", item.Link)
 	}
 }

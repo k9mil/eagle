@@ -6,6 +6,11 @@ Eagle works by searching your questions in Stack Overflow, and allowing you a pl
 
 This project was created with the intention of learning the language in more depth.
 
+Takeaways:
+- TBD
+- TBD
+- TBD
+
 # Installation
 
 TBA
