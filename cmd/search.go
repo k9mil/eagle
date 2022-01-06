@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -120,7 +121,7 @@ func broadcastAnswer(a Answer) {
 	t.AppendHeader(table.Row{"Title", "Answers", "Upvotes", "Link"})
 
 	for _, item := range a.Items {
-		t.AppendRows([]table.Row{{item.Title, item.AnswerCount, item.Score, formatLink(item.Link)}})
+		t.AppendRows([]table.Row{{html.UnescapeString(item.Title), item.AnswerCount, item.Score, formatLink(item.Link)}})
 	}
 
 	t.Render()
