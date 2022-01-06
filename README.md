@@ -7,8 +7,8 @@ Eagle works by searching your questions in Stack Overflow, and allowing you a pl
 This project was created with the intention of learning the language in more depth.
 
 Takeaways:
-- TBD
-- TBD
+- Got to know 'Cobra' in more detail, and I wasn't too much of a fan due to the overwhelming out-of-the-box functionality. Might try other libraries in the future.
+- Though the script was very limited in it's scope got to understand net/http as well as enconding/json better.
 - TBD
 
 # Installation
