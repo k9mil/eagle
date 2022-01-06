@@ -1,4 +1,4 @@
-## eagle 🦅
+# eagle 🦅
 
 Well, what is eagle? Eagle is a simple, fast, and fun CLI-based application which functions as a helper to find answers to your programming questions.
 
@@ -11,7 +11,7 @@ Takeaways:
 - Though the script was very limited in it's scope got to understand net/http as well as encoding/json better.
 - Bits about httptest, testing an application in general.
 
-# Installation
+## Installation
 
 1. Clone the git repository.
 2. Go inside the desired directory containing the main.go file.
@@ -19,7 +19,7 @@ Takeaways:
 
 After that, you're ready to use eagle.
 
-# Example(s)
+## Example(s)
 
 To search for the query "How to install Go?", sorted by votes & a maximum of 5 results: (both work)
 ```
@@ -36,10 +36,10 @@ Example Display:
 
 <p align="center"><img src="https://i.imgur.com/NIPwico.jpg"></p>
 
-# Help
+## Help
 
 Any further information about this application is available under --help.
 
-# License
+## License
 
 Licensed under the MIT License - see the [LICENSE file](https://github.com/k9mil/eagle/blob/master/LICENSE) for more details.
