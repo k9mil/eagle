@@ -8,7 +8,7 @@ This project was created with the intention of learning the language in more dep
 
 Takeaways:
 - Got to know 'Cobra' in more detail, and I wasn't too much of a fan due to the overwhelming out-of-the-box functionality. Might try other libraries in the future.
-- Though the script was very limited in it's scope got to understand net/http as well as enconding/json better.
+- Though the script was very limited in it's scope got to understand net/http as well as encoding/json better.
 - TBD
 
 # Installation
@@ -25,4 +25,4 @@ TBA
 
 # License
 
-TBA
+Licensed under the MIT License - see the [LICENSE file](https://github.com/k9mil/eagle/blob/master/LICENSE) for more details.

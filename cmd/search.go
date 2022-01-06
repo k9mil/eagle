@@ -8,7 +8,10 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
+	"regexp"
 
+	"github.com/jedib0t/go-pretty/table"
 	"github.com/spf13/cobra"
 )
 
@@ -112,10 +115,21 @@ func decodeJSON(resp []byte) (Answer, error) {
 }
 
 func broadcastAnswer(a Answer) {
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(table.Row{"Title", "Answers", "Upvotes", "Link"})
+
 	for _, item := range a.Items {
-		fmt.Printf("Title: %+v\n", item.Title)
-		fmt.Printf("Answers: %+v\n", item.AnswerCount)
-		fmt.Printf("Upvotes: %+v\n", item.Score)
-		fmt.Printf("Link: %+v\n\n", item.Link)
+		t.AppendRows([]table.Row{{item.Title, item.AnswerCount, item.Score, formatLink(item.Link)}})
 	}
+
+	t.Render()
+}
+
+func formatLink(Link string) string {
+	standardURL := "https://stackoverflow.com/q/"
+	re := regexp.MustCompile("[0-9]+")
+	questionID := re.FindAllString(Link, -1)
+
+	return standardURL + questionID[0]
 }
