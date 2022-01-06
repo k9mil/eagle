@@ -26,8 +26,9 @@ type Answer struct {
 }
 
 var (
-	Sort  string
-	Title string
+	Sort    string
+	Title   string
+	Results string
 )
 
 var searchCmd = &cobra.Command{
@@ -52,10 +53,12 @@ var searchCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		Title = url.QueryEscape(args[0])
-		if len(args) > 1 {
-			search(Title, args[1])
+		if len(args) < 2 {
+			search(Title, "votes", "20")
+		} else if len(args) < 3 {
+			search(Title, args[1], "20")
 		} else {
-			search(Title, "votes")
+			search(Title, args[1], args[2])
 		}
 	},
 }
@@ -72,12 +75,13 @@ func stringInSlice(sort string, ListOfOptions []string) error {
 
 func init() {
 	searchCmd.Flags().StringVarP(&Title, "title", "t", "", "The title of the query. (required)")
-	searchCmd.Flags().StringVarP(&Sort, "sort", "s", "", "The sort method to be used. (optional, default: votes)")
+	searchCmd.Flags().StringVarP(&Sort, "sort", "s", "votes", "The sort method to be used. (optional)")
+	searchCmd.Flags().StringVarP(&Results, "results", "r", "20", "The number of posts to be displayed. (optional)")
 	rootCmd.AddCommand(searchCmd)
 }
 
-func search(title, sort string) {
-	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow", sort, title)
+func search(title, sort, results string) {
+	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow&pagesize=%s", sort, title, results)
 	apiReturn, err := apiCall(url)
 
 	if err != nil {
