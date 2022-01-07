@@ -40,6 +40,10 @@ Example Display:
 
 Any further information about this application is available under --help.
 
+## Tests
+
+To ensure the software is working as intended, you can run the tests by typing in "go test -v" in your terminal, inside /cmd/.
+
 ## License
 
 Licensed under the MIT License - see the [LICENSE file](https://github.com/k9mil/eagle/blob/master/LICENSE) for more details.
