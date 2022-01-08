@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"html"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -16,19 +15,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Answer struct {
-	Items []struct {
-		AnswerCount int    `json:"answer_count"`
-		Score       int    `json:"score"`
-		Link        string `json:"link"`
-		Title       string `json:"title"`
-	}
-}
-
 var (
 	Sort    string
 	Title   string
 	Results string
+	rawData Answer
 )
 
 var searchCmd = &cobra.Command{
@@ -45,7 +36,7 @@ var searchCmd = &cobra.Command{
 			err := stringInSlice(args[1], ListOfOptions)
 
 			if err != nil {
-				log.Fatalln(err)
+				return fmt.Errorf("searchCmd: An errror occured using stringInSlice(): %w", err)
 			}
 		}
 
@@ -80,43 +71,50 @@ func init() {
 	rootCmd.AddCommand(searchCmd)
 }
 
-func search(title, sort, results string) {
+func search(title, sort, results string) error {
 	url := fmt.Sprintf("https://api.stackexchange.com/2.3/search?order=desc&sort=%s&intitle=%s&site=stackoverflow&pagesize=%s", sort, title, results)
-	apiReturn, err := apiCall(url)
+	apiReturn, err := apiCall(url, rawData)
 
 	if err != nil {
-		log.Fatalln(err)
+		return fmt.Errorf("search: An error occured: %w", err)
 	}
 
 	broadcastAnswer(apiReturn)
+	return nil
 }
 
-func apiCall(url string) (Answer, error) {
+func apiCall(url string, rawData Answer) (Answer, error) {
 	resp, err := http.Get(url)
 
 	if err != nil {
-		log.Fatalln(err)
+		return rawData, fmt.Errorf("apiCall: An error occured with the GET request: %w", err)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatalln(err)
+		return rawData, fmt.Errorf("apiCall: An error occured with ReadAll(): %w", err)
 	}
 
-	return decodeJSON(body)
+	return decodeJSON(body, rawData)
 }
 
-func decodeJSON(resp []byte) (Answer, error) {
-	var rawData Answer
-
+func decodeJSON(resp []byte, rawData Answer) (Answer, error) {
 	err := json.Unmarshal(resp, &rawData)
 
 	if err != nil {
-		log.Fatalln(err)
+		return rawData, fmt.Errorf("decodeJSON: An error occured with unmarshalling the data: %w", err)
 	}
 
 	return rawData, nil
+}
+
+func formatLink(Link string) string {
+	standardURL := "https://stackoverflow.com/q/"
+	re := regexp.MustCompile("[0-9]+")
+	questionID := re.FindAllString(Link, -1)
+
+	return standardURL + questionID[0]
 }
 
 func broadcastAnswer(a Answer) {
@@ -129,12 +127,4 @@ func broadcastAnswer(a Answer) {
 	}
 
 	t.Render()
-}
-
-func formatLink(Link string) string {
-	standardURL := "https://stackoverflow.com/q/"
-	re := regexp.MustCompile("[0-9]+")
-	questionID := re.FindAllString(Link, -1)
-
-	return standardURL + questionID[0]
 }

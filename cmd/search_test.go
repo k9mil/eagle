@@ -8,13 +8,6 @@ import (
 	"testing"
 )
 
-type Tests struct {
-	name          string
-	server        *httptest.Server
-	response      *Answer
-	expectedError error
-}
-
 func TestSearch(t *testing.T) {
 	tests := []Tests{
 		{
@@ -67,7 +60,8 @@ func TestSearch(t *testing.T) {
 
 	t.Run(tests[0].name, func(t *testing.T) {
 		defer tests[0].server.Close()
-		resp, err := apiCall(tests[0].server.URL)
+		var testData Answer
+		resp, err := apiCall(tests[0].server.URL, testData)
 
 		if !reflect.DeepEqual(&resp, tests[0].response) {
 			t.Errorf("DEEP EQUAL FAILED: Expected: %v, got: %v\n", tests[0].response, resp)
@@ -80,8 +74,9 @@ func TestSearch(t *testing.T) {
 
 	t.Run(tests[1].name, func(t *testing.T) {
 		defer tests[0].server.Close()
+		var testData Answer
 		byteResponse := []byte(`{"items":[{"answer_count":5,"score":10,"link":"https://stackoverflow.com/questions/32531854/how-to-initialize-nested-structure-array-in-golang","title":"How to initialize nested structure array in golang? [duplicate]"}]}`)
-		resp, err := decodeJSON(byteResponse)
+		resp, err := decodeJSON(byteResponse, testData)
 
 		if !reflect.DeepEqual(&resp, tests[1].response) {
 			t.Errorf("DEEP EQUAL FAILED: Expected: %v, got: %v\n", tests[1].response, resp)
