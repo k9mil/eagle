@@ -79,11 +79,11 @@ func TestSearch(t *testing.T) {
 		resp, err := decodeJSON(byteResponse, testData)
 
 		if !reflect.DeepEqual(&resp, tests[1].response) {
-			t.Errorf("DEEP EQUAL FAILED: Expected: %v, got: %v\n", tests[1].response, resp)
+			t.Errorf("got %v want %v", resp, tests[1].response)
 		}
 
 		if !errors.Is(err, tests[1].expectedError) {
-			t.Errorf("EXPECTED ERROR FAILED: Expected: %v got: %v\n", tests[1].expectedError, err)
+			t.Errorf("got %v want %v", err, tests[1].expectedError)
 		}
 	})
 }

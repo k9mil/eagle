@@ -22,6 +22,13 @@ var (
 	rawData Answer
 )
 
+func init() {
+	searchCmd.Flags().StringVarP(&Title, "title", "t", "", "The title of the query. (required)")
+	searchCmd.Flags().StringVarP(&Sort, "sort", "s", "votes", "The sort method to be used. (optional)")
+	searchCmd.Flags().StringVarP(&Results, "results", "r", "20", "The number of posts to be displayed. (optional)")
+	rootCmd.AddCommand(searchCmd)
+}
+
 var searchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "Required command to search for your question.",
@@ -62,13 +69,6 @@ func stringInSlice(sort string, ListOfOptions []string) error {
 	}
 
 	return errors.New("sort method not found")
-}
-
-func init() {
-	searchCmd.Flags().StringVarP(&Title, "title", "t", "", "The title of the query. (required)")
-	searchCmd.Flags().StringVarP(&Sort, "sort", "s", "votes", "The sort method to be used. (optional)")
-	searchCmd.Flags().StringVarP(&Results, "results", "r", "20", "The number of posts to be displayed. (optional)")
-	rootCmd.AddCommand(searchCmd)
 }
 
 func search(title, sort, results string) error {
