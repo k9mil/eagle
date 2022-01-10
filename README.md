@@ -4,18 +4,23 @@ Well, what is eagle? Eagle is a simple, fast, and fun CLI-based application whic
 
 Eagle works by searching your questions in Stack Overflow, and allowing you a plethora of options to get your answer to you as quick as possible.
 
-This project was created with the intention of learning the language in more depth.
+This project was created with the intention of learning the language in more depth, and what it lacks in merit I have gained in knowledge. Feel free to use it if it helps you!
 
 Takeaways:
 - Got to know 'Cobra' in more detail, and I wasn't too much of a fan due to the overwhelming out-of-the-box functionality. Might try other libraries in the future.
 - Though the script was very limited in it's scope got to understand net/http as well as encoding/json better.
-- Bits about httptest, testing an application in general.
+- Bits about httptest, testing an application in general, go-releaser, Go folder structuring & much more.
 
 ## Installation
 
 1. Clone the git repository.
 2. Go inside the desired directory containing the main.go file.
 3. Lastly run: $ go build
+
+Alternative, you can follow the steps below:
+
+1. Head over to the official stable [releases](https://github.com/k9mil/eagle/releases/tag/v0.1.0) page.
+2. Download the binary for your specific system, then proceed to unpack it.
 
 After that, you're ready to use eagle.
 
