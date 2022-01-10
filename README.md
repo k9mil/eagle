@@ -2,7 +2,7 @@
 
 Well, what is eagle? Eagle is a simple, fast, and fun CLI-based application which functions as a helper to find answers to your programming questions.
 
-Eagle works by searching your questions in Stack Overflow, and allowing you a plethora of options to get your answer to you as quick as possible.
+Eagle works by searching for your questions in Stack Overflow, and allowing you a plethora of options to get your answer to you as quickly as possible.
 
 This project was created with the intention of learning the language in more depth, and what it lacks in merit I have gained in knowledge. Feel free to use it if it helps you!
 
@@ -17,7 +17,7 @@ Takeaways:
 2. Go inside the desired directory containing the main.go file.
 3. Lastly run: $ go build
 
-Alternative, you can follow the steps below:
+Alternatively, you can follow the steps below:
 
 1. Head over to the official stable [releases](https://github.com/k9mil/eagle/releases/tag/v0.1.0) page.
 2. Download the binary for your specific system, then proceed to unpack it.
