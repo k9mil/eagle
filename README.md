@@ -1,4 +1,9 @@
-# eagle 🦅
+<p align="center">
+  <img alt="header image" src="https://raw.githubusercontent.com/k9mil/eagle/9bf460ee75ccd6a5481b3f17118e7f5553a9b87e/static/programming_img.svg" height="250" />
+  <h1 align="center">eagle 🦅</h1>
+</p>
+
+# What is eagle?
 
 Well, what is eagle? Eagle is a simple, fast, and fun CLI-based application which functions as a helper to find answers to your programming questions.
 
