@@ -8,7 +8,7 @@ This project was created with the intention of learning the language in more dep
 
 Takeaways:
 - Got to know 'Cobra' in more detail, and I wasn't too much of a fan due to the overwhelming out-of-the-box functionality. Might try other libraries in the future.
-- Though the script was very limited in it's scope got to understand net/http as well as encoding/json better.
+- Though the script was very limited in it's scope, I got to understand net/http as well as encoding/json better.
 - Bits about httptest, testing an application in general, go-releaser, Go folder structuring & much more.
 
 ## Installation
