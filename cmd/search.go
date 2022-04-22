@@ -126,5 +126,6 @@ func broadcastAnswer(a Answer) {
 		t.AppendRows([]table.Row{{html.UnescapeString(item.Title), item.AnswerCount, item.Score, formatLink(item.Link)}})
 	}
 
+	t.SetStyle(table.StyleLight)
 	t.Render()
 }
