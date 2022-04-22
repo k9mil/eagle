@@ -44,7 +44,7 @@ $ .\eagle.exe search "How to center a div?"
 
 Example Display:
 
-<p align="center"><img src="https://i.imgur.com/NIPwico.jpg"></p>
+<p align="center"><img src="https://i.imgur.com/eZ1CjVP.png"></p>
 
 ## Help
 
